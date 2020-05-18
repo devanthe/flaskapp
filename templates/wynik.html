@@ -1,31 +1,40 @@
 <html>
   <head>
     <title>Wynik Quizu</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   </head>
-<body>
-  <h1>Wynik Quizu</h1>
-</body>
+<body class="bg-light text-dark">
+  <div class="container">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-4 text-center">
+        <h1 class="p-3">Wynik Quizu</h1>
+      <!-- wyświetlamy komunikaty z funkcji flash -->
+          <p>
+              {% for message in get_flashed_messages() %}
+                {{ message }}
+              {% endfor %}
+          </p>
+          <!-- formularz z quizem -->
+          <form method="POST">
+              <!--przgledądamy treść pytania -->
+              {% for p in pytania %}
+                  <p>
+                  <!-- zapamiętujemy numer pytania licząc od zera -->
+                  {% set pnr = loop.index0 %}
+                  <!-- przeglądamy odpowiedzi dla danego pytania -->
+                  {% for o in p.odpowiedzi %}
+                    {% endfor %}
+                  </p>
+              {% endfor %}
+
+
+              <!-- przycisk powrotu do formularza -->
+              <a class="text-center" href="{{ url_for('index') }}"><button type="button" class="btn btn-light">Wróć do strony głównej?</button></a>
+          </form>
+        </div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+  </body>
 </html>
-<!-- wyświetlamy komunikaty z funkcji flash -->
-    <p>
-        {% for message in get_flashed_messages() %}
-          {{ message }}
-        {% endfor %}
-    </p>
-    <!-- formularz z quizem -->
-    <form method="POST">
-        <!--przgledądamy treść pytania -->
-        {% for p in pytania %}
-            <p>
-            <!-- zapamiętujemy numer pytania licząc od zera -->
-            {% set pnr = loop.index0 %}
-            <!-- przeglądamy odpowiedzi dla danego pytania -->
-            {% for o in p.odpowiedzi %}
-                {% endfor %}
-            </p>
-        {% endfor %}
-
-
-        <!-- przycisk powrotu do formularza -->
-        <a href="{{ url_for('index') }}"><button type='button'>Wróć do strony głównej?</button></a>
-    </form>

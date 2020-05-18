@@ -2,40 +2,64 @@
 <html>
   <head>
     <title>Quiz Python</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   </head>
-<body>
-  <h1>Quiz Python</h1>
-</body>
+  <body class="bg-light text-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center"><h1 class="pt-4">Quiz Python</h1></div>
+        <div class="col-4"></div>
+      </div>
+      <!-- wyświetlamy komunikaty z funkcji flash -->
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 text-center">
+          <p>
+            {% for message in get_flashed_messages() %}
+              {{ message }}
+            {% endfor %}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4"></div>
+        <!-- formularz z quizem -->
+        <div class="col-4 text-center">
+          <form method="POST" action="{{ url_for('wynik') }}">
+            <!--przgledądamy treść pytania -->
+            {% for p in pytania %}
+              <p>
+              <!-- wyświetlamy treść pytań -->
+              {{ p.pytanie }}
+              
+              
+                <br>
+                  <!-- zapamiętujemy numer pytania licząc od zera -->
+                  {% set pnr = loop.index0 %}
+                  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <!-- przeglądamy odpowiedzi dla danego pytania -->
+                  {% for o in p.odpowiedzi %}
+                    <label class="btn btn-secondary">
+                      <!-- odpowiedzi wyświetlamy jako pole typu radio -->
+                      <input type="radio" value="{{ o }}" name="{{ pnr }}" autocomplete="off">
+                      {{ o }}
+                    </label>
+                  {% endfor %}
+                  </div>
+              </p>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-light">Sprawdź wynik</button>
+            <!-- przycisk wysyłający wypełniony formularz -->
+            <!--<input type="submit" value="Sprawdź wynik"/>-->
+          </form>
+        </div>
+        <div class="col-4"></div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
 </html>
-<!-- wyświetlamy komunikaty z funkcji flash -->
-  <p>
-    {% for message in get_flashed_messages() %}
-      {{ message }}
-    {% endfor %}
-  </p>
-<!-- formularz z quizem -->
-  <form method="POST" action="{{ url_for('wynik') }}">
-    <!--przgledądamy treść pytania -->
-    {% for p in pytania %}
-      <p>
-      <!-- wyświetlamy treść pytań -->
-      {{ p.pytanie }}
-        <br>
-          <!-- zapamiętujemy numer pytania licząc od zera -->
-          {% set pnr = loop.index0 %}
-          <!-- przeglądamy odpowiedzi dla danego pytania -->
-          {% for o in p.odpowiedzi %}
-            <label>
-              <!-- odpowiedzi wyświetlamy jako pole typu radio -->
-              <input type="radio" value="{{ o }}" name="{{ pnr }}">
-              {{ o }}
-            </label>
-          <br>
-        {% endfor %}
-      </p>
-    {% endfor %}
-
-    <!-- przycisk wysyłający wypełniony formularz -->
-    <input type="submit" value="Sprawdź wynik"/>
-
-  </form>
